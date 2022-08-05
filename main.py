@@ -52,19 +52,14 @@ async def iam(ctx, *, role_name: str):
   await ctx.reply("Invalid role")
 
 @bot.command()
-async def kick(ctx, user: discord.Member, *, reason):
-      try:
-        await user.kick(reason=reason)
-        embed = discord.Embed(color=discord.Colour.blue(),title="", description="")
-        embed.add_field(name="Kicked", value=f"""
-The user **{user}** has been kicked.
+@commands.has_permissions(ban_members=True)
+async def ban(ctx, user: discord.Member, *, reason="No reason"):
+        await user.ban(reason=reason)
+        embed = discord.Embed(color=discord.Colour.red(),title="", description="")
+        embed.add_field(name="Banned:", value=f"""
+The user **{user}** has been banned.
 Reason = **{reason}**
 """, inline=True)
         await ctx.reply(embed=embed)
-      except: 
-            embed = discord.Embed(color=discord.Colour.blue(),title="", description="")
-            embed.add_field(name="Kicked:", value=f"""
-Error
-""",inline=True)
-    
+
 bot.run(TOKEN)
